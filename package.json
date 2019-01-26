@@ -1,0 +1,19 @@
+{
+  "name": "number-generator",
+  "version": "1.0.0",
+  "description": "A simple app that generates phone numbers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Atebije",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "randomatic": "^3.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.1"
+  }
+}
