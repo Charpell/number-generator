@@ -4,7 +4,9 @@
   "description": "A simple app that generates phone numbers",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --exit"
+    "start:server": "node server.js",
+    "test": "nyc --reporter=html --reporter=text ./node_modules/.bin/mocha --exit",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "author": "Daniel Atebije",
   "license": "ISC",
@@ -22,7 +24,7 @@
     "eslint": "^5.12.1",
     "mocha": "^5.2.0",
     "mock-fs": "^4.7.0",
-    "rewire": "^4.0.1",
+    "nyc": "^13.1.0",
     "supertest": "^3.4.2"
   }
 }
