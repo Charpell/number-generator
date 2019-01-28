@@ -1,27 +1,28 @@
-const rn = require('randomatic');
 const fs = require('fs');
+const rn = require('randomatic');
 
 exports.numbersController = (req, res) => {
 
-  const numbersToGenerate = Number(req.body.generateNumber) || 10;
+  const filePath = "data/phoneNumbers.txt";
+
+  const numbersToGenerate = Number(req.body.generateNumber);
 
   if (numbersToGenerate < 1) {
     res.status(400).send({ message: 'Please enter number greater than 0 ' });
   }
 
   const generatedNumbers = [];
-  let totalNumbersGenerated;
 
   for (let i = 1; i <= numbersToGenerate; i++) {
     const newNumber = `0${rn('0', 9)}`;
     generatedNumbers.push(newNumber);
   }
 
-  fs.stat('phoneNumbers.csv', (err, stat) => {
+  fs.stat(filePath, (err, stat) => {
     //  if null means file exists
     if (err == null) {
       // Read File in
-      fs.readFile('phoneNumbers.csv', 'utf-8', (error, data) => {
+      fs.readFile(filePath, 'utf-8', (error, data) => {
         if (error) throw error;
 
         const exitingNumbers = data.split(',');
@@ -29,27 +30,13 @@ exports.numbersController = (req, res) => {
 
         const allNumbers = exitingNumbers.concat(filteredGeneratedNumbers);
         totalNumbersGenerated = allNumbers.length;
-        console.log(totalNumbersGenerated);
 
-        // write numbers 
-        fs.writeFileSync('phoneNumbers.csv', allNumbers.join());
-
-        res.status(201).send({
-          message: 'generated successfully',
-          phoneNumbers: allNumbers,
-          totalNumbersGenerated
-        });
+        // write numbers  to file
+        saveNumbersToFile(req, res, allNumbers);
       });
     }
     else if (err.code === 'ENOENT') {
-      fs.writeFileSync('phoneNumbers.csv', generatedNumbers.join());
-
-      res.status(201).send({
-        message: 'generated successfully',
-        phoneNumbers: generatedNumbers,
-        totalNumbersGenerated: generatedNumbers.length
-      });
-
+      saveNumbersToFile(req,res, generatedNumbers);
     } else {
       res.status(500).send({
         message: 'This is definitely some other error!!' + err.code
@@ -58,3 +45,20 @@ exports.numbersController = (req, res) => {
   });
 
 };
+
+const saveNumbersToFile = (req, res, numbers) => {
+  let numbersToSave = numbers.join();
+  if(numbersToSave.charAt(0) === ',') {
+    numbersToSave = numbersToSave.substring(1);
+  }
+
+  fs.writeFileSync(filePath, numbersToSave);
+
+  res.status(201).send({
+    message: 'generated successfully',
+    phoneNumbers: numbers,
+    totalNumbersGenerated: numbers.length
+  });
+};
+
+// module.exports = numbersController;
