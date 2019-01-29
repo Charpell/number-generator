@@ -9,9 +9,9 @@ const routes = require('./routes');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static(__dirname+'/dist/number-generator'));
+app.use(express.static(__dirname+'/dist/client'));
 app.get('/*', function(req,res) {
-  res.sendFile(path.join(__dirname+'/dist/number-generator/index.html'))
+  res.sendFile(path.join(__dirname+'/dist/client/index.html'))
 })
 app.use('/api/v1', routes);
 
