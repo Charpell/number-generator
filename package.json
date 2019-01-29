@@ -10,7 +10,7 @@
     "test:client": "ng test",
     "test": "nyc --reporter=html --reporter=text ./node_modules/.bin/mocha --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "postinstall": "ng build --aot -prod"
+    "postinstall": "ng build --aot --prod"
   },
   "author": "Daniel Atebije",
   "license": "ISC",
