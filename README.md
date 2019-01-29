@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Dannytebj/number-generator.svg?branch=chore%2Fwrite-tests)](https://travis-ci.org/Dannytebj/number-generator) [![Coverage Status](https://coveralls.io/repos/github/Dannytebj/number-generator/badge.svg?branch=develop)](https://coveralls.io/github/Dannytebj/number-generator?branch=develop)
+[![Build Status](https://travis-ci.org/Dannytebj/number-generator.svg?branch=chore%2Fwrite-tests)](https://travis-ci.org/Dannytebj/number-generator) [![Coverage Status](https://coveralls.io/repos/github/Dannytebj/number-generator/badge.svg?branch=chore%2Fwrite-tests)](https://coveralls.io/github/Dannytebj/number-generator?branch=chore%2Fwrite-tests)
 ## Phone Number Generator
 A simple app that generates random phone numbers for a telecommunications company.
 ### Features
