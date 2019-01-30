@@ -10,49 +10,6 @@ chai.use(request);
 const { numbersController, getNumbers } = require('../numbersController');
 const app = require('../server');
 
-describe('NumberController: GET', () => {
-  before(function () {
-
-  });
-  after(mock.restore);
-
-  it('should return 200 and a message if no number exists', (done) => {
-    mock({
-      'data': {}
-    });
-    chai.request(app).get('/api/v1/numbers', getNumbers)
-      .end((err, res) => {
-        if(!err) {
-          expect(res).to.have.status(200);
-          res.body.should.have.property('message')
-            .equal('There are no phonNumbers yet!');
-            mock.restore();
-          done();
-        }
-      })
-  })
-
-  it('should return 200 and existing numbers when they exists', (done) => {
-    mock({
-      'data': {
-        'phoneNumbers.txt': '0123456789,0112233445'
-      }
-    });
-    chai.request(app).get('/api/v1/numbers', getNumbers)
-      .end((err, res) => {
-        if(!err) {
-          expect(res).to.have.status(200);
-          res.body.should.have.property('message')
-            .equal('phoneNumbers fetched successfully');
-            expect(res.body).to.have.property('phoneNumbers').with.lengthOf(2);
-            mock.restore();
-          done();
-        }
-      })
-  })
-
-});
-
 describe('NumberController: POST', () => {
   let testNumbers = [];
   before(function () {
@@ -99,4 +56,43 @@ describe('NumberController: POST', () => {
         }
       })
   })
+});
+
+describe('NumberController: GET', () => {
+
+  it('should return 200 and a message if no number exists', (done) => {
+    mock({
+      'data': {}
+    });
+    chai.request(app).get('/api/v1/numbers', getNumbers)
+      .end((err, res) => {
+        if(!err) {
+          expect(res).to.have.status(200);
+          res.body.should.have.property('message')
+            .equal('There are no phonNumbers yet!');
+            mock.restore();
+          done();
+        }
+      })
+  })
+
+  it('should return 200 and existing numbers when they exists', (done) => {
+    mock({
+      'data': {
+        'phoneNumbers.txt': '0123456789,0112233445'
+      }
+    });
+    chai.request(app).get('/api/v1/numbers', getNumbers)
+      .end((err, res) => {
+        if(!err) {
+          expect(res).to.have.status(200);
+          res.body.should.have.property('message')
+            .equal('phoneNumbers fetched successfully');
+            expect(res.body).to.have.property('phoneNumbers').with.lengthOf(2);
+            mock.restore();
+          done();
+        }
+      })
+  })
+
 });
