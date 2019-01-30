@@ -10,23 +10,24 @@ const rn = require('randomatic');
  */
 exports.getNumbers = (req, res) => {
   const filePath = 'data/phoneNumbers.txt';
-  fs.stat(filePath, (err, data) => {
-    if (err === null) {
-      fs.readFile(filePath, 'utf-8', (error, data) => {
-        if (error) throw error;
-
-        const phoneNumbers = data.split(',');
+  fs.access(filePath, fs.constants.F_OK | fs.constants.R_OK, (err) => {
+    if (err) {
+      if (err.code === 'ENOENT') {
         res.status(200).send({
-          message: 'phoneNumbers fetched successfully',
-          phoneNumbers,
+          message: 'There are no phonNumbers yet!',
         });
-      });
+        return
+      }
+      console.log("file is read-only")
     } else {
-      res.status(200).send({
-        message: 'There are no phonNumbers yet!',
-      });
+      let data = fs.readFileSync(filePath,'utf8');
+      const phoneNumbers = data.split(',');
+          res.status(200).send({
+            message: 'phoneNumbers fetched successfully',
+            phoneNumbers,
+          });
     }
-  })
+  });
 };
 
 /** 
@@ -102,3 +103,4 @@ const saveNumbersToFile = (req, res, numbers) => {
     totalNumbersGenerated: numbers.length
   });
 };
+
