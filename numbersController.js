@@ -1,6 +1,41 @@
 const fs = require('fs');
 const rn = require('randomatic');
 
+/** 
+ * Get All existing numbers
+ * 
+ *  @param {any} req
+ *  @param {any} res
+ * 
+ */
+exports.getNumbers = (req, res) => {
+  const filePath = 'data/phoneNumbers.txt';
+  fs.stat(filePath, (err, data) => {
+    if (err === null) {
+      fs.readFile(filePath, 'utf-8', (error, data) => {
+        if (error) throw error;
+
+        const phoneNumbers = data.split(',');
+        res.status(200).send({
+          message: 'phoneNumbers fetched successfully',
+          phoneNumbers,
+        });
+      });
+    } else {
+      res.status(200).send({
+        message: 'There are no phonNumbers yet!',
+      });
+    }
+  })
+};
+
+/** 
+ * Creates new unique numbers
+ * 
+ *  @param {any} req
+ *  @param {any} res
+ * 
+ */
 exports.numbersController = (req, res) => {
 
   const filePath = "data/phoneNumbers.txt";
@@ -12,7 +47,6 @@ exports.numbersController = (req, res) => {
   } else {
 
     const generatedNumbers = [];
-    let totalNumbersGenerated;
 
     for (let i = 1; i <= numbersToGenerate; i++) {
       const newNumber = `0${rn('0', 9)}`;
@@ -30,7 +64,6 @@ exports.numbersController = (req, res) => {
           const filteredGeneratedNumbers = generatedNumbers.filter(num => exitingNumbers.indexOf(num) === -1);
 
           const allNumbers = exitingNumbers.concat(filteredGeneratedNumbers);
-          totalNumbersGenerated = allNumbers.length;
 
           // write numbers  to file
           saveNumbersToFile(req, res, allNumbers);
@@ -48,6 +81,14 @@ exports.numbersController = (req, res) => {
 
 };
 
+/** 
+ * Helper that saves number to file
+ * 
+ *  @param {any} req
+ *  @param {any} res
+ *  @param {array} numbers
+ * 
+ */
 const saveNumbersToFile = (req, res, numbers) => {
   const filePath = "data/phoneNumbers.txt";
 
@@ -61,6 +102,3 @@ const saveNumbersToFile = (req, res, numbers) => {
     totalNumbersGenerated: numbers.length
   });
 };
-
-
-// module.exports = numbersController;
