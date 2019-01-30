@@ -59,6 +59,7 @@ describe('NumberController: POST', () => {
 });
 
 describe('NumberController: GET', () => {
+  afterEach(mock.restore);
 
   it('should return 200 and a message if no number exists', (done) => {
     mock({
