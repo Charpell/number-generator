@@ -14,8 +14,8 @@ export class AppComponent implements OnInit {
   totalNumbers;
   numbersToGenerate = '';
   loading = false;
-  minNumber = '';
-  maxNumber = '';
+  minNumber;
+  maxNumber;
 
   constructor(
     private numbersService: NumbersGeneratorService,
@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.getNumbers();
-
   }
 
   /**

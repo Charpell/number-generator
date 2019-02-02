@@ -9,9 +9,9 @@
       {{ title }}
     </div>
   </div>
-  <div *ngIf="randomNumbers.length > 0;else emptyNumbers;" class="body-wrapper">
+  <div class="body-wrapper">
     <div class="left-column">
-      <table>
+      <table *ngIf="totalNumbers > 0;else emptyNumbers;">
         <tr>
           <th>S/N</th>
           <th>Numbers</th>
