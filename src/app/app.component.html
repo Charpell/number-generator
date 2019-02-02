@@ -6,31 +6,42 @@
       <span class="counter-display">{{ totalNumbers }}</span>
     </div>
     <div class="app-title">
-      <p> {{ title }} </p>
+      {{ title }}
     </div>
   </div>
-  <div *ngIf="randomNumbers.length > 0" class="body-wrapper">
+  <div *ngIf="randomNumbers.length > 0;else emptyNumbers;" class="body-wrapper">
     <div class="left-column">
-        <table>
-            <tr>
-              <th>S/N</th>
-              <th>Numbers</th>
-            </tr>
-            <tr *ngFor="let number of randomNumbers; let i = index;" class="rows">
-              <td>{{ i + 1}}</td>
-              <td>{{ number }}</td>
-            </tr>
-          </table>
+      <table>
+        <tr>
+          <th>S/N</th>
+          <th>Numbers</th>
+        </tr>
+        <tr *ngFor="let number of randomNumbers; let i = index;" class="rows">
+          <td>{{ i + 1}}</td>
+          <td>{{ number }}</td>
+        </tr>
+      </table>
     </div>
     <div class="right-column">
-      <input type="text" class="generate-input" placeholder="How many numbers will you like to generate?" />
+      <input [(ngModel)]="numbersToGenerate" #myForm="ngModel" type="text" class="generate-input" name="numbersToGenerate"
+        placeholder="How many numbers will you like to generate?" required>
       <div class="btn-wrappers">
-        <button class="btn-general">Generate</button>
-        <button class="btn-general">Sort</button>
-        <button class="btn-general">Reset</button>
+        <button (click)="generateNumbers()" class="btn-general" type="button" [disabled]="myForm.invalid">Generate</button>
+        <button (click)="sortAscending()" type="button" class="btn-general">Sort Ascending</button>
+        <button (click)="sortDescending()" class="btn-general">Sort descending</button>
+      </div>
+      <div class="min-max-wrapper">
+        <label for="max-wrapper" class="max-wrapper">Max Number Generated</label>
+        <span>{{ maxNumber }}</span>
+        <label for="min-wrapper" class="max-wrapper">Min Number Generated</label>
+        <span>{{ minNumber }}</span>
       </div>
     </div>
 
   </div>
+  <ngx-loading [show]="loading"></ngx-loading>
   <div class="footer-wrapper"></div>
 </div>
+<ng-template #emptyNumbers>
+  <h3 style="text-align:center;margin-top:15%;">No numbers at the moment</h3>
+</ng-template>

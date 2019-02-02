@@ -26,7 +26,20 @@ describe('NumberController: POST', () => {
         if(!err) {
           expect(res).to.have.status(400);
           res.body.should.have.property('message')
-            .equal('Please enter number greater than 0 ');
+            .equal('Please enter a number greater than 0 ');
+          done();
+        }
+      })
+  })
+
+  it("should return 400 if 'generateNumber' value is a string", (done) => {
+    chai.request(app).post('/api/v1/numbers/generate', numbersController)
+      .send({generateNumber: "stringM" })
+      .end((err, res) => {
+        if(!err) {
+          expect(res).to.have.status(400);
+          res.body.should.have.property('message')
+            .equal('Please enter a number greater than 0 ');
           done();
         }
       })
