@@ -12,9 +12,8 @@ $font-family: -apple-system, 'avenir next', avenir, roboto, noto, ubuntu, 'helve
 .app-title {
   flex: 1 1 auto;
   text-align: center;
-  p {
-    font-size: 4em;
-  }
+  font-size: 3em;
+
 }
 .numbers-counter {
   flex: 0 0 auto;
@@ -35,12 +34,14 @@ $font-family: -apple-system, 'avenir next', avenir, roboto, noto, ubuntu, 'helve
   .left-column {
     flex: 1 1 auto;
     overflow: scroll;
+    height: 420px;
   }
   .right-column {
     flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     margin-top: 39px;
+    width: 300px;
 
     .generate-input{ 
       padding: 20px;
@@ -58,7 +59,16 @@ $font-family: -apple-system, 'avenir next', avenir, roboto, noto, ubuntu, 'helve
         padding: 20px;
         margin: 10px 10px 10px 0;
         border: 1px solid #01FF70;
-        color: #01FF64;
+        color: rgb(6, 158, 64);
+      }
+      :disabled {
+        cursor: not-allowed;
+        border: 1px solid #ccc;
+        color: #ccc;
+      }
+      :hover {
+        background: rgb(6, 158, 64);
+        color: white;
       }
 
     }
@@ -66,8 +76,22 @@ $font-family: -apple-system, 'avenir next', avenir, roboto, noto, ubuntu, 'helve
 }
 .header-wrapper {
   display: flex;
-  height: 30vh;
   width: 60%;
+}
+.min-max-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-top: 10px; 
+  label {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #01FF70;
+  }
+  span {
+    padding: 20px 0;
+    color: gray;
+    font-size: 1.5em;
+  }
 }
 table {
   border-collapse: collapse;
@@ -88,5 +112,10 @@ th, td {
 tr:nth-child(even) {
   box-shadow: 0 0 3px #E8EDDF;
   border: 1px solid #01FF70;
-  border-radius: 3px;
+  border-radius: 10px;
+}
+tr:nth-child(odd) {
+  background: #F5F5F5;
+  border: 1px solid #01FF70;
+
 }

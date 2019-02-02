@@ -8,10 +8,13 @@ import { HttpClient } from '@angular/common/http';
 export class NumbersGeneratorService {
 
   constructor(private httpClient: HttpClient) { }
-  // baseUrl = 'https://rpn-generatorbydanny.herokuapp.com';
-  baseUrl = 'http://localhost:3333';
+  baseUrl = 'https://rpn-generatorbydanny.herokuapp.com';
+  // baseUrl = 'http://localhost:3333';
 
   getNumbers() {
     return this.httpClient.get(`${this.baseUrl}/api/v1/numbers`);
+  }
+  generateNumbers(generateNumber: string) {
+    return this.httpClient.post(`${this.baseUrl}/api/v1/numbers/generate`, { generateNumber });
   }
 }

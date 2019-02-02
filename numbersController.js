@@ -25,6 +25,7 @@ exports.getNumbers = (req, res) => {
           res.status(200).send({
             message: 'phoneNumbers fetched successfully',
             phoneNumbers,
+            totalNumbersGenerated: phoneNumbers.length
           });
     }
   });
@@ -43,8 +44,8 @@ exports.numbersController = (req, res) => {
 
   const numbersToGenerate = Number(req.body.generateNumber);
 
-  if (numbersToGenerate < 1) {
-    res.status(400).send({ message: 'Please enter number greater than 0 ' });
+  if (numbersToGenerate < 1 || isNaN(numbersToGenerate)) {
+    res.status(400).send({ message: 'Please enter a number greater than 0 ' });
   } else {
 
     const generatedNumbers = [];
