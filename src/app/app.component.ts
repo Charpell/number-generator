@@ -56,6 +56,7 @@ export class AppComponent implements OnInit {
       this.updateNumbers(res.phoneNumbers, res.totalNumbersGenerated);
       this.getMax();
       this.getMin();
+      this.numbersToGenerate = '';
       this.loading = false;
       this.toastr.success(res.message);
     }, ({ error }) => {
