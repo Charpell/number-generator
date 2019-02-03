@@ -74,7 +74,6 @@ exports.numbersController = (req, res) => {
         fs.readFile(filePath, 'utf-8', (error, data) => {
           if (error) throw error;
 
-          if(data.length > 0){
             const exitingNumbers = data.split(',');
             const filteredGeneratedNumbers = generatedNumbers.filter(num => exitingNumbers.indexOf(num) === -1);
   
@@ -82,8 +81,6 @@ exports.numbersController = (req, res) => {
 
             // write numbers  to file
             saveNumbersToFile(req, res, allNumbers);
-          }
-
         });
       }
       else if (err.code === 'ENOENT') {
