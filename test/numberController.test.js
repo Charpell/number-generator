@@ -70,6 +70,19 @@ describe('NumberController: POST', () => {
         }
       })
   })
+  it('should throw an error when numberToGenerate greater than 50', (done) => {
+    chai.request(app).post('/api/v1/numbers/generate', numbersController)
+      .send({ generateNumber: 51 })
+      .end((err, res) => {
+        if (!err) {
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('message')
+            .equal("Sorry!, you can't generate more than 50 numbers at a time");
+          mock.restore();
+          done();
+        }
+      })
+  })
 });
 
 describe('NumberController: GET', () => {
@@ -95,6 +108,22 @@ describe('NumberController: GET', () => {
   it('should return 200 and a message if no number exists', (done) => {
     mock({
       'data': {}
+    });
+    chai.request(app).get('/api/v1/numbers', getNumbers)
+      .end((err, res) => {
+        if(!err) {
+          expect(res).to.have.status(200);
+          res.body.should.have.property('message')
+            .equal('There are no phonNumbers yet!');
+            mock.restore();
+          done();
+        }
+      })
+  })
+
+  it('should return 200 and a message if empty file exists', (done) => {
+    mock({
+      'data/phoneNumbers.txt':'' 
     });
     chai.request(app).get('/api/v1/numbers', getNumbers)
       .end((err, res) => {

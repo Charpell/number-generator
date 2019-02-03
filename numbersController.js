@@ -16,18 +16,25 @@ exports.getNumbers = (req, res) => {
         res.status(200).send({
           message: 'There are no phonNumbers yet!',
         });
-        return
+        return;
       }
-      console.log("file is read-only")
-    } else {
-      let data = fs.readFileSync(filePath,'utf8');
-      const phoneNumbers = data.split(',');
-          res.status(200).send({
-            message: 'phoneNumbers fetched successfully',
-            phoneNumbers,
-            totalNumbersGenerated: phoneNumbers.length
-          });
     }
+
+    const data = fs.readFileSync(filePath, 'utf8');
+
+    if (data.length > 0) {
+      const phoneNumbers = data.split(',');
+      res.status(200).send({
+        message: 'phoneNumbers fetched successfully',
+        phoneNumbers,
+        totalNumbersGenerated: phoneNumbers.length
+      });
+    } else {
+      res.status(200).send({
+        message: 'There are no phonNumbers yet!',
+      })
+    }
+
   });
 };
 
@@ -45,8 +52,13 @@ exports.numbersController = (req, res) => {
   const numbersToGenerate = Number(req.body.generateNumber);
 
   if (numbersToGenerate < 1 || isNaN(numbersToGenerate)) {
-    res.status(400).send({ message: 'Please enter a number greater than 0 ' });
-  } else {
+    return res.status(400)
+      .send({ message: 'Please enter a number greater than 0 ' });
+  } 
+  if (numbersToGenerate > 50) {
+    return res.status(400)
+      .send({ message: "Sorry!, you can't generate more than 50 numbers at a time"});
+  }
 
     const generatedNumbers = [];
 
@@ -62,13 +74,16 @@ exports.numbersController = (req, res) => {
         fs.readFile(filePath, 'utf-8', (error, data) => {
           if (error) throw error;
 
-          const exitingNumbers = data.split(',');
-          const filteredGeneratedNumbers = generatedNumbers.filter(num => exitingNumbers.indexOf(num) === -1);
+          if(data.length > 0){
+            const exitingNumbers = data.split(',');
+            const filteredGeneratedNumbers = generatedNumbers.filter(num => exitingNumbers.indexOf(num) === -1);
+  
+            const allNumbers = exitingNumbers.concat(filteredGeneratedNumbers);
 
-          const allNumbers = exitingNumbers.concat(filteredGeneratedNumbers);
+            // write numbers  to file
+            saveNumbersToFile(req, res, allNumbers);
+          }
 
-          // write numbers  to file
-          saveNumbersToFile(req, res, allNumbers);
         });
       }
       else if (err.code === 'ENOENT') {
@@ -79,8 +94,6 @@ exports.numbersController = (req, res) => {
         });
       }
     });
-  }
-
 };
 
 /** 
