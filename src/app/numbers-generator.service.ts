@@ -9,6 +9,7 @@ export class NumbersGeneratorService {
 
   constructor(private httpClient: HttpClient) { }
   baseUrl = 'https://rpn-generatorbydanny.herokuapp.com';
+  //  Local url
   // baseUrl = 'http://localhost:3333';
 
   getNumbers() {
